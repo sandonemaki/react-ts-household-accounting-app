@@ -12,7 +12,7 @@ import {
 	ListItemText,
 	Toolbar,
 } from "@mui/material";
-import React from "react";
+import React, { type FC } from "react";
 
 interface SidebarProps {
 	drawerWidth: number;
@@ -20,11 +20,11 @@ interface SidebarProps {
 	handleDrawerToggle: () => void;
 }
 
-const SideBar = ({
+const SideBar: FC<SidebarProps> = ({
 	drawerWidth,
 	mobileOpen,
 	handleDrawerToggle,
-}: SidebarProps) => {
+}) => {
 	const drawer = (
 		<div>
 			<Toolbar />
