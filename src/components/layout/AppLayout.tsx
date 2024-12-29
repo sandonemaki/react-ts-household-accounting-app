@@ -7,7 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { Outlet } from "react-router-dom";
-import SideBar from "../common/SideBar.tsx";
+import SideBar from "../common/SideBar";
 
 const drawerWidth = 240;
 
@@ -31,8 +31,8 @@ export default function AppLayout() {
 			<AppBar
 				position="fixed"
 				sx={{
-					width: { sm: `calc(100% - ${drawerWidth}px)` },
-					ml: { sm: `${drawerWidth}px` },
+					width: { md: `calc(100% - ${drawerWidth}px)` },
+					ml: { md: `${drawerWidth}px` },
 				}}
 			>
 				<Toolbar>
@@ -46,7 +46,7 @@ export default function AppLayout() {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap component="div">
-						Responsive drawer
+						TypeScript × React家計簿
 					</Typography>
 				</Toolbar>
 			</AppBar>
@@ -62,7 +62,7 @@ export default function AppLayout() {
 				sx={{
 					flexGrow: 1,
 					p: 3,
-					width: { sm: `calc(100% - ${drawerWidth}px)` },
+					width: { md: `calc(100% - ${drawerWidth}px)` },
 				}}
 			>
 				<Toolbar />

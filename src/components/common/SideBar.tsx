@@ -1,5 +1,6 @@
+import EqualizerIcon from "@mui/icons-material/Equalizer";
+import HomeIcon from "@mui/icons-material/Home";
 import MailIcon from "@mui/icons-material/Mail";
-
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import {
 	Box,
@@ -12,7 +13,9 @@ import {
 	ListItemText,
 	Toolbar,
 } from "@mui/material";
-import React from "react";
+import type React from "react";
+import type { CSSProperties } from "react";
+import { NavLink } from "react-router-dom";
 
 interface SidebarProps {
 	drawerWidth: number;
@@ -20,56 +23,69 @@ interface SidebarProps {
 	handleDrawerToggle: () => void;
 }
 
+interface menuItem {
+	text: string;
+	path: string;
+	icon: React.ComponentType;
+}
+
 const SideBar = ({
 	drawerWidth,
 	mobileOpen,
 	handleDrawerToggle,
 }: SidebarProps) => {
+	const MenuItems: menuItem[] = [
+		{ text: "Home", path: "/", icon: HomeIcon },
+		{ text: "Report", path: "/report", icon: EqualizerIcon },
+	];
+
+	const baseLinkStyle: CSSProperties = {
+		textDecoration: "none",
+		color: "inherit",
+		display: "block",
+	};
+
+	const activeLinkStyle: CSSProperties = {
+		color: "rgba(0, 0, 0, 0.8)",
+	};
 	const drawer = (
 		<div>
 			<Toolbar />
 			<Divider />
 			<List>
-				{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
-			<Divider />
-			<List>
-				{["All mail", "Trash", "Spam"].map((text, index) => (
-					<ListItem key={text} disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-							</ListItemIcon>
-							<ListItemText primary={text} />
-						</ListItemButton>
-					</ListItem>
+				{MenuItems.map((item, index) => (
+					<NavLink
+						key={item.text}
+						to={item.path}
+						style={({ isActive }) => {
+							console.log("選択されたメニューは", item.text, isActive);
+							return {
+								...baseLinkStyle,
+								...(isActive ? activeLinkStyle : {}),
+							};
+						}}
+					>
+						<ListItem key={index} disablePadding>
+							<ListItemButton>
+								<ListItemIcon>
+									<item.icon />
+								</ListItemIcon>
+								<ListItemText primary={item.text} />
+							</ListItemButton>
+						</ListItem>
+					</NavLink>
 				))}
 			</List>
 		</div>
 	);
-	function handleDrawerClos(
-		event: {},
-		reason: "backdropClick" | "escapeKeyDown",
-	): void {
-		throw new Error("Function not implemented.");
-	}
 
 	return (
 		<Box
 			component="nav"
-			sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+			sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
 			aria-label="mailbox folders"
 		>
-			{/* モバイル用　The implementation can be swapped with js to avoid SEO duplication of links. */}
+			{/* モバイル用 */}
 			<Drawer
 				variant="temporary"
 				open={mobileOpen}
@@ -78,7 +94,7 @@ const SideBar = ({
 					keepMounted: true, // Better open performance on mobile.
 				}}
 				sx={{
-					display: { xs: "block", sm: "none" },
+					display: { xs: "block", md: "none" },
 					"& .MuiDrawer-paper": {
 						boxSizing: "border-box",
 						width: drawerWidth,
@@ -92,7 +108,7 @@ const SideBar = ({
 			<Drawer
 				variant="permanent"
 				sx={{
-					display: { xs: "none", sm: "block" },
+					display: { xs: "none", md: "block" },
 					"& .MuiDrawer-paper": {
 						boxSizing: "border-box",
 						width: drawerWidth,

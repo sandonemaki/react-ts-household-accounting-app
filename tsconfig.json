@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		/* 基本設定 */
+		"target": "esnext" /* 最新の ECMAScript 機能をサポート */,
+		"module": "commonjs" /* CommonJS モジュールを使用 */,
+		"jsx": "react-jsx" /* React JSX サポート */,
+		"moduleResolution": "node" /* Node.js スタイルのモジュール解決 */,
+		"rootDir": "./src" /* ソースコードのルートディレクトリ */,
+		"outDir": "./dist" /* 出力ファイルのディレクトリ */,
+		"esModuleInterop": true /* CommonJS モジュールとの互換性 */,
+		"allowSyntheticDefaultImports": true /* デフォルトインポートを許容 */,
+		"strict": true /* 厳密な型チェックを有効化 */,
+		"forceConsistentCasingInFileNames": true /* ファイル名の大文字小文字の一貫性を強制 */,
+		"skipLibCheck": true /* 型定義ファイルのチェックをスキップ */,
+		"importsNotUsedAsValues": "preserve" /* 型定義インポートを保持 */,
+		"resolveJsonModule": true /* JSON ファイルのインポートを許可 */
+	},
+	"include": ["src"] /* TypeScript ファイルを含めるディレクトリ */,
+	"exclude": ["node_modules", "dist"] /* 除外するディレクトリ */
+}
