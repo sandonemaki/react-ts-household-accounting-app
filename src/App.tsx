@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { ThemeProvider } from "@emotion/react";
 import { Css } from "@mui/icons-material";
@@ -11,6 +11,7 @@ import Report from "./pages/Report";
 import { theme } from "./theme/theme";
 
 function App() {
+	const [transactions, setTransactions] = useState([]);
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
