@@ -14,6 +14,16 @@ import { theme } from "./theme/theme";
 import type { Transaction } from "./types/index";
 
 function App() {
+	function isFireStoreError(
+		err: unknown,
+	): err is { code: string; message: string } {
+		return (
+			typeof err === "object" &&
+			err !== null &&
+			"code" in err &&
+			"message" in err
+		);
+	}
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
 
 	useEffect(() => {
@@ -32,7 +42,14 @@ function App() {
 					} as Transaction;
 				});
 				console.log(transactionsData);
-			} catch (error) {
+			} catch (err) {
+				if (isFireStoreError(err)) {
+					console.error(err);
+					console.error(err.message);
+					console.error(err.code);
+				} else {
+					console.error("一般的なエラーは", err);
+				}
 				// error
 			}
 		};
