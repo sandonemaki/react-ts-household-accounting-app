@@ -9,9 +9,10 @@ import Home from "./pages/Home";
 import Nomatch from "./pages/Nomatch";
 import Report from "./pages/Report";
 import { theme } from "./theme/theme";
+import type { Transaction } from "./types/index";
 
 function App() {
-	const [transactions, setTransactions] = useState([]);
+	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
