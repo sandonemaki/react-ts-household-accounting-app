@@ -11,8 +11,13 @@ import {
 	Typography,
 } from "@mui/material";
 import React from "react";
+import type { Transaction } from "../types";
 
-const MonthlySummary = () => {
+interface MonthlySummaryProps {
+	monthlyTransactions: Transaction[];
+}
+
+const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
 	return (
 		<Grid container spacing={{ xs: 1, sm: 2 }} mb={2}>
 			{/* 収入 */}
