@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
+import Calendar from "../components/Calendar";
 import MonthlySummary from "../components/MonthlySummary";
-import Calendar from "../components/layout/Calendar";
 import TransactionForm from "../components/layout/TransactionForm";
 import TransactionMenu from "../components/layout/TransactionMenu";
 import type { Transaction } from "../types";
@@ -15,7 +15,7 @@ const Home = ({ monthlyTransactions }: HomeProps) => {
 			{/* 左側コンテンツ */}
 			<Box sx={{ flexGrow: 1, bgcolor: "pink" }}>
 				<MonthlySummary monthlyTransactions={monthlyTransactions} />
-				<Calendar />
+				<Calendar monthlyTransactions={monthlyTransactions} />
 			</Box>
 
 			{/* 右側コンテンツ */}

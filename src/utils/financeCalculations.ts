@@ -18,3 +18,26 @@ export function finaceCalculations(transactions: Transaction[]): Balance {
 		},
 	);
 }
+
+// 1. 日付ごとの収支を計算する関数
+export function calculateDailyBalance(
+	transactions: Transaction[],
+): Record<string, Balance> {
+	return transactions.reduce<Record<string, Balance>>((acc, transaction) => {
+		const date = transaction.date;
+		if (!acc[date]) {
+			acc[date] = {
+				income: 0,
+				expense: 0,
+				balance: 0,
+			};
+		}
+		if (transaction.type === "income") {
+			acc[date].income += transaction.amount;
+		} else {
+			acc[date].expense += transaction.amount;
+		}
+		acc[date].balance = acc[date].income - acc[date].expense;
+		return acc;
+	}, {});
+}
