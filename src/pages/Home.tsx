@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
+import MonthlySummary from "../components/MonthlySummary";
 import Calendar from "../components/layout/Calendar";
-import MonthlySummary from "../components/layout/MonthlySummary";
 import TransactionForm from "../components/layout/TransactionForm";
 import TransactionMenu from "../components/layout/TransactionMenu";
 import type { Transaction } from "../types";

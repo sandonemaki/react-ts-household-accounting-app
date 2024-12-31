@@ -12,12 +12,15 @@ import {
 } from "@mui/material";
 import React from "react";
 import type { Transaction } from "../types";
+import { finaceCalculations } from "../utils/financeCalculations";
 
 interface MonthlySummaryProps {
 	monthlyTransactions: Transaction[];
 }
 
 const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
+	const { income, expense, balance } = finaceCalculations(monthlyTransactions);
+
 	return (
 		<Grid container spacing={{ xs: 1, sm: 2 }} mb={2}>
 			{/* 収入 */}
@@ -44,7 +47,7 @@ const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
 								fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
 							}}
 						>
-							￥300
+							￥{income}
 						</Typography>
 					</CardContent>
 				</Card>
@@ -73,7 +76,7 @@ const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
 								fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
 							}}
 						>
-							￥300
+							￥{expense}
 						</Typography>
 					</CardContent>
 				</Card>
@@ -102,7 +105,7 @@ const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
 								fontSize: { xs: ".8rem", sm: "1rem", md: "1.2rem" },
 							}}
 						>
-							￥300
+							￥{balance}
 						</Typography>
 					</CardContent>
 				</Card>
