@@ -8,8 +8,8 @@ import interactionPlugin, {
 	type DateClickArg,
 } from "@fullcalendar/interaction";
 import { useTheme } from "@mui/material";
-import type { Balance, CalenderContent } from "../types";
-import type { Transaction } from "../types";
+import { isSameMonth } from "date-fns";
+import type { Balance, CalenderContent, Transaction } from "../types";
 import { calculateDailyBalance } from "../utils/financeCalculations";
 import { formatCurrency } from "../utils/formatting";
 
@@ -18,12 +18,15 @@ interface CalendarProps {
 	setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
 	setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
 	currentDay: string;
+	today: string;
 }
+
 const Calendar = ({
 	monthlyTransactions,
 	setCurrentMonth,
 	setCurrentDay,
 	currentDay,
+	today,
 }: CalendarProps) => {
 	const theme = useTheme();
 
@@ -34,11 +37,9 @@ const Calendar = ({
 				<div className="money" id="event-income">
 					{eventInfo.event.extendedProps.income}
 				</div>
-
 				<div className="money" id="event-expense">
 					{eventInfo.event.extendedProps.expense}
 				</div>
-
 				<div className="money" id="event-balance">
 					{eventInfo.event.extendedProps.balance}
 				</div>
@@ -70,14 +71,22 @@ const Calendar = ({
 		display: "background",
 		backgroundColor: theme.palette.incomeColor.light,
 	};
+
+	// 月の日付取得
 	const handleDateSet = (datesetInfo: DatesSetArg) => {
-		setCurrentMonth(datesetInfo.view.currentStart);
+		const currentMonth = datesetInfo.view.currentStart;
+		setCurrentMonth(currentMonth);
+		if (isSameMonth(currentMonth, new Date())) {
+			setCurrentDay(today);
+		}
 	};
 
+	// 日付を選択したときの処理
 	const handleDateClick = (dateInfo: DateClickArg) => {
 		console.log(dateInfo);
 		setCurrentDay(dateInfo.dateStr);
 	};
+
 	return (
 		<FullCalendar
 			locale={jaLocale}

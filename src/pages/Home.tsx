@@ -12,7 +12,7 @@ interface HomeProps {
 	setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
+export const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
 	const today = format(new Date(), "yyyy-MM-dd");
 	const [currentDay, setCurrentDay] = useState(today);
 
@@ -29,6 +29,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
 					setCurrentMonth={setCurrentMonth}
 					setCurrentDay={setCurrentDay}
 					currentDay={currentDay}
+					today={today}
 				/>
 			</Box>
 
