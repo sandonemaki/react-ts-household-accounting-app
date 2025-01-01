@@ -30,7 +30,7 @@ function App() {
 		const fetchTransactions = async () => {
 			try {
 				const querySnapshot = await getDocs(collection(db, "Transactions"));
-				console.log(querySnapshot);
+				// console.log(querySnapshot);
 
 				const transactionsData = querySnapshot.docs.map((doc) => {
 					// doc.data() is never undefined for query doc snapshots

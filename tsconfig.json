@@ -4,6 +4,7 @@
 		"target": "esnext" /* 最新の ECMAScript 機能をサポート */,
 		"module": "commonjs" /* CommonJS モジュールを使用 */,
 		"jsx": "react-jsx" /* React JSX サポート */,
+		// "types": ["react"],
 		"moduleResolution": "node" /* Node.js スタイルのモジュール解決 */,
 		"rootDir": "./src" /* ソースコードのルートディレクトリ */,
 		"outDir": "./dist" /* 出力ファイルのディレクトリ */,

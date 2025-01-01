@@ -4,6 +4,9 @@ import FullCalendar from "@fullcalendar/react";
 import type React from "react";
 import "../calendar.css";
 import type { DatesSetArg, EventContentArg } from "@fullcalendar/core";
+import interactionPlugin, {
+	type DateClickArg,
+} from "@fullcalendar/interaction";
 import type { Balance, CalenderContent, Transaction } from "../types";
 import { calculateDailyBalance } from "../utils/financeCalculations";
 import { formatCurrency } from "../utils/formatting";
@@ -11,8 +14,13 @@ import { formatCurrency } from "../utils/formatting";
 interface CalendarProps {
 	monthlyTransactions: Transaction[];
 	setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
+	setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
 }
-const Calendar = ({ monthlyTransactions, setCurrentMonth }: CalendarProps) => {
+const Calendar = ({
+	monthlyTransactions,
+	setCurrentMonth,
+	setCurrentDay,
+}: CalendarProps) => {
 	const events = [
 		{ title: "Meeting", start: "2024-12-10" },
 		{
@@ -64,14 +72,19 @@ const Calendar = ({ monthlyTransactions, setCurrentMonth }: CalendarProps) => {
 		setCurrentMonth(datesetInfo.view.currentStart);
 	};
 
+	const handleDateClick = (dateInfo: DateClickArg) => {
+		console.log(dateInfo);
+		setCurrentDay(dateInfo.dateStr);
+	};
 	return (
 		<FullCalendar
 			locale={jaLocale}
-			plugins={[dayGridPlugin]}
+			plugins={[dayGridPlugin, interactionPlugin]}
 			initialView="dayGridMonth"
 			events={calendarEvents}
 			eventContent={renderEventContent}
 			datesSet={handleDateSet}
+			dateClick={handleDateClick}
 		/>
 	);
 };
