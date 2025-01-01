@@ -7,7 +7,9 @@ import type { DatesSetArg, EventContentArg } from "@fullcalendar/core";
 import interactionPlugin, {
 	type DateClickArg,
 } from "@fullcalendar/interaction";
-import type { Balance, CalenderContent, Transaction } from "../types";
+import { useTheme } from "@mui/material";
+import type { Balance, CalenderContent } from "../types";
+import type { Transaction } from "../types";
 import { calculateDailyBalance } from "../utils/financeCalculations";
 import { formatCurrency } from "../utils/formatting";
 
@@ -15,22 +17,16 @@ interface CalendarProps {
 	monthlyTransactions: Transaction[];
 	setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
 	setCurrentDay: React.Dispatch<React.SetStateAction<string>>;
+	currentDay: string;
 }
 const Calendar = ({
 	monthlyTransactions,
 	setCurrentMonth,
 	setCurrentDay,
+	currentDay,
 }: CalendarProps) => {
-	const events = [
-		{ title: "Meeting", start: "2024-12-10" },
-		{
-			title: "Conference",
-			start: "2024-12-34",
-			income: "10000",
-			expense: "5000",
-			balance: "5000",
-		},
-	];
+	const theme = useTheme();
+
 	//カレンダーイベントの見た目を作る関数
 	const renderEventContent = (eventInfo: EventContentArg) => {
 		return (
@@ -66,8 +62,14 @@ const Calendar = ({
 			};
 		});
 	};
+
 	const calendarEvents = createCalenderEvents(dailyBalance);
 
+	const backgroundEvent = {
+		start: currentDay,
+		display: "background",
+		backgroundColor: theme.palette.incomeColor.light,
+	};
 	const handleDateSet = (datesetInfo: DatesSetArg) => {
 		setCurrentMonth(datesetInfo.view.currentStart);
 	};
@@ -81,7 +83,7 @@ const Calendar = ({
 			locale={jaLocale}
 			plugins={[dayGridPlugin, interactionPlugin]}
 			initialView="dayGridMonth"
-			events={calendarEvents}
+			events={[...calendarEvents, backgroundEvent]}
 			eventContent={renderEventContent}
 			datesSet={handleDateSet}
 			dateClick={handleDateClick}
