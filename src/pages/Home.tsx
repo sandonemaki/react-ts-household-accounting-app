@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { useState } from "react";
 import Calendar from "../components/Calendar";
 import MonthlySummary from "../components/MonthlySummary";
+import TransactionForm from "../components/TransactionForm";
 import TransactionMenu from "../components/TransactionMenu";
-import TransactionForm from "../components/common/TransactionForm";
 import type { Transaction } from "../types";
 
 interface HomeProps {
