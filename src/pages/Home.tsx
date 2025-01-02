@@ -4,7 +4,7 @@ import { useState } from "react";
 import Calendar from "../components/Calendar";
 import MonthlySummary from "../components/MonthlySummary";
 import TransactionMenu from "../components/TransactionMenu";
-import TransactionForm from "../components/layout/TransactionForm";
+import TransactionForm from "../components/common/TransactionForm";
 import type { Transaction } from "../types";
 
 interface HomeProps {
@@ -15,10 +15,20 @@ interface HomeProps {
 export const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
 	const today = format(new Date(), "yyyy-MM-dd");
 	const [currentDay, setCurrentDay] = useState(today);
+	const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
 
 	const dailyTransactions = monthlyTransactions.filter((transaction) => {
 		return transaction.date === currentDay;
 	});
+
+	const closeForm = () => {
+		setIsEntryDrawerOpen(!isEntryDrawerOpen);
+	};
+
+	// フォームの開閉処理
+	const handleAddTransactionForm = () => {
+		setIsEntryDrawerOpen(!isEntryDrawerOpen);
+	};
 	return (
 		<Box sx={{ display: "flex" }}>
 			{/* 左側コンテンツ */}
@@ -38,8 +48,12 @@ export const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
 				<TransactionMenu
 					dailyTransactions={dailyTransactions}
 					currentDay={currentDay}
+					onAddTransactionForm={handleAddTransactionForm}
 				/>
-				<TransactionForm />
+				<TransactionForm
+					onCloseForm={closeForm}
+					isEntryDrawerOpen={isEntryDrawerOpen}
+				/>
 			</Box>
 		</Box>
 	);
