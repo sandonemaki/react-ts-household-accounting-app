@@ -1,24 +1,24 @@
 {
   // プロジェクト固有の推奨拡張機能を定義
-  "recommendations": [
-      // コード品質とリンティングのための拡張機能
-      "dbaeumer.vscode-eslint",  // ESLintによるコード静的解析
-      "esbenp.prettier-vscode",  // コードフォーマット
+  // "recommendations": [
+  //     // コード品質とリンティングのための拡張機能
+  //     "dbaeumer.vscode-eslint",  // ESLintによるコード静的解析
+  //     "esbenp.prettier-vscode",  // コードフォーマット
 
-      // 開発生産性を向上させる拡張機能
-      "usernamehw.errorlens",    // エラーと警告をインラインで表示
-      "streetsidesoftware.code-spell-checker",  // スペルチェック
+  //     // 開発生産性を向上させる拡張機能
+  //     "usernamehw.errorlens",    // エラーと警告をインラインで表示
+  //     "streetsidesoftware.code-spell-checker",  // スペルチェック
 
-      // TypeScript/React開発に便利な拡張機能
-      "dsznajder.es7-react-js-snippets",  // Reactスニペット
-      "bradlc.vscode-tailwindcss"  // Tailwind CSS補完
-  ],
+  //     // TypeScript/React開発に便利な拡張機能
+  //     "dsznajder.es7-react-js-snippets",  // Reactスニペット
+  //     "bradlc.vscode-tailwindcss"  // Tailwind CSS補完
+  // ],
 
-  // 避けたい、または競合する可能性のある拡張機能
-  "unwantedRecommendations": [
-      "biomejs.biome",  // 他のリンターと競合する可能性
-      "dbaeumer.vscode-eslint"  // 重複を避けるため
-  ],
+  // // 避けたい、または競合する可能性のある拡張機能
+  // "unwantedRecommendations": [
+  //     "biomejs.biome",  // 他のリンターと競合する可能性
+  //     "dbaeumer.vscode-eslint"  // 重複を避けるため
+  // ],
 
   // Biomeの診断機能を無効化
   "biome.linting.enabled": false,
