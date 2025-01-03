@@ -8,6 +8,7 @@ import TrainIcon from "@mui/icons-material/Train";
 import WorkIcon from "@mui/icons-material/Work";
 import SavingsIcon from "@mui/icons-material/Savings";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
     Box,
@@ -23,6 +24,9 @@ import {
 import { JSX, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ExpenseCategory, IncomeCategory } from "../types";
+import { Schema, transactionSchema } from "../validations/schema";
+import { Z } from "@fullcalendar/core/internal-common";
+import { z } from "zod";
 
 
 
@@ -65,15 +69,25 @@ const TransactionForm = ({
 
     const [categories, setCategories] = useState(expenseCategories);
 
-    const { control, setValue, watch } = useForm({
+    // transactionSchema の型に基づいた型定義
+    type TransactionFormData = z.infer<typeof transactionSchema>;
+
+    const {
+      control,
+      setValue,
+      watch,
+      formState: { errors },
+      handleSubmit} = useForm<Schema>({
         defaultValues: {
-            type: "expense",
-            date: currentDay,
-            amount: 0,
-            category: "",
-            content: "",
+          type: "expense",
+          date: currentDay,
+          amount: 0,
+          category: "",
+          content: "",
         },
+        resolver: zodResolver(transactionSchema),
     });
+    // console.log(errors);
 
     const incomExpenseToggle = (type: IncomeExpenseType) => {
         setValue("type", type);
@@ -92,6 +106,10 @@ const TransactionForm = ({
     useEffect(() => {
         setValue("date", currentDay);
     }, [currentDay]);
+
+    const onSubmit = (data: any) => {
+        console.log(data);
+    };
 
     return (
         <Box
@@ -127,7 +145,7 @@ const TransactionForm = ({
                 </IconButton>
             </Box>
             {/* フォーム要素 */}
-            <Box component={"form"}>
+            <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={2}>
                     {/* 収支切り替えボタン */}
                     <Controller
@@ -171,6 +189,8 @@ const TransactionForm = ({
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                error={!!errors.date}
+                                helperText={errors.date?.message}
                             />
                         )}
                     />
@@ -180,15 +200,18 @@ const TransactionForm = ({
                         name="category"
                         control={control}
                         render={({ field }) => (
-                            <TextField {...field} id="カテゴリ" label="カテゴリ" select>
-                                {categories.map((category) => (
-                                    <MenuItem value={category.label}>
-                                        <ListItemIcon>
-                                            {category.icon}
-                                        </ListItemIcon>
-                                        {category.label}
-                                    </MenuItem>
-                                ))}
+                            <TextField
+                              error={!!errors.category}
+                              helperText={errors.category?.message}
+                              {...field} id="カテゴリ" label="カテゴリ" select>
+                              {categories.map((category, index) => (
+                                  <MenuItem value={category.label} key={index}>
+                                      <ListItemIcon>
+                                          {category.icon}
+                                      </ListItemIcon>
+                                      {category.label}
+                                  </MenuItem>
+                              ))}
                             </TextField>
                         )}
                     />
@@ -201,6 +224,8 @@ const TransactionForm = ({
                         console.log(field);
                         return (
                           <TextField
+                          error={!!errors.amount}
+                          helperText={errors.amount?.message}
                           {...field}
                           value={field.value === 0 ? "" : field.value}
                           onChange={(e) => {
@@ -219,7 +244,10 @@ const TransactionForm = ({
                         name="content"
                         control={control}
                         render={({ field }) => (
-                            <TextField {...field} label="内容" type="text" />
+                            <TextField
+                            error={!!errors.content}
+                            helperText={errors.content?.message}
+                            {...field} label="内容" type="text" />
                         )}
                     />
 
