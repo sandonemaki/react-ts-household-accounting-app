@@ -83,7 +83,7 @@ const Calendar = ({
 
 	// 日付を選択したときの処理
 	const handleDateClick = (dateInfo: DateClickArg) => {
-		console.log(dateInfo);
+		// console.log(dateInfo);
 		setCurrentDay(dateInfo.dateStr);
 	};
 

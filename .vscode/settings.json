@@ -18,5 +18,9 @@
   "unwantedRecommendations": [
       "biomejs.biome",  // 他のリンターと競合する可能性
       "dbaeumer.vscode-eslint"  // 重複を避けるため
-  ]
+  ],
+
+  // Biomeの診断機能を無効化
+  "biome.linting.enabled": false,
+  "biome.enabled": false
 }

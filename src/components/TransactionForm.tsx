@@ -22,7 +22,7 @@ import {
     Typography,
 } from "@mui/material";
 import { JSX, useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { ExpenseCategory, IncomeCategory } from "../types";
 import { Schema, transactionSchema } from "../validations/schema";
 import { Z } from "@fullcalendar/core/internal-common";
@@ -36,6 +36,7 @@ interface TransactionFormProps {
     onCloseForm: () => void;
     isEntryDrawerOpen: boolean;
     currentDay: string;
+    onSaveTransaction: (transaction: Schema) => Promise<void>;
 }
 
 type IncomeExpenseType = "income" | "expense";
@@ -48,6 +49,7 @@ const TransactionForm = ({
     onCloseForm,
     isEntryDrawerOpen,
     currentDay,
+    onSaveTransaction,
 }: TransactionFormProps) => {
     const formWidth = 320;
 
@@ -95,7 +97,7 @@ const TransactionForm = ({
 
     // 収支タイプを監視
     const currentType = watch("type");
-    console.log(currentType);
+    // console.log(currentType);
 
     useEffect(() => {
         const newCategories = currentType === "expense" ? expenseCategories : incomeCategories;
@@ -107,8 +109,9 @@ const TransactionForm = ({
         setValue("date", currentDay);
     }, [currentDay]);
 
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit:SubmitHandler<Schema> = (data) => {
+        // console.log(data);
+        onSaveTransaction(data);
     };
 
     return (
@@ -221,7 +224,7 @@ const TransactionForm = ({
                       name="amount"
                       control={control}
                       render={({ field }) => {
-                        console.log(field);
+                        // console.log(field);
                         return (
                           <TextField
                           error={!!errors.amount}
