@@ -79,7 +79,9 @@ const TransactionForm = ({
       setValue,
       watch,
       formState: { errors },
-      handleSubmit} = useForm<Schema>({
+      handleSubmit,
+      reset,
+    } = useForm<Schema>({
         defaultValues: {
           type: "expense",
           date: currentDay,
@@ -91,8 +93,10 @@ const TransactionForm = ({
     });
     // console.log(errors);
 
+    // 収支切り替え
     const incomExpenseToggle = (type: IncomeExpenseType) => {
         setValue("type", type);
+        setValue("category", "");
     };
 
     // 収支タイプを監視
@@ -109,9 +113,17 @@ const TransactionForm = ({
         setValue("date", currentDay);
     }, [currentDay]);
 
+    // フォームの送信処理
     const onSubmit:SubmitHandler<Schema> = (data) => {
         // console.log(data);
         onSaveTransaction(data);
+        reset({
+          type: "expense",
+          date: currentDay,
+          amount: 0,
+          category: "",
+          content: "",
+        })
     };
 
     return (
