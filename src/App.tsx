@@ -27,6 +27,7 @@ function isFireStoreError(
 function App() {
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
 	useEffect(() => {
 		const fetchTransactions = async () => {
@@ -94,6 +95,8 @@ function App() {
 									monthlyTransactions={monthlyTransactions}
 									setCurrentMonth={setCurrentMonth}
                   onSaveTransaction={handleSaveTransaction}
+                  selectedTransaction={selectedTransaction}
+                  setSelectedTransaction={setSelectedTransaction}
 								/>
 							}
 						/>

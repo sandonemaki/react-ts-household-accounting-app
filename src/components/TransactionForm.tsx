@@ -23,9 +23,8 @@ import {
 } from "@mui/material";
 import { JSX, useEffect, useState } from "react";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
-import { ExpenseCategory, IncomeCategory } from "../types";
+import { ExpenseCategory, IncomeCategory, Transaction } from "../types";
 import { Schema, transactionSchema } from "../validations/schema";
-import { Z } from "@fullcalendar/core/internal-common";
 import { z } from "zod";
 
 
@@ -37,6 +36,7 @@ interface TransactionFormProps {
     isEntryDrawerOpen: boolean;
     currentDay: string;
     onSaveTransaction: (transaction: Schema) => Promise<void>;
+    selectedTransaction: Transaction | null;
 }
 
 type IncomeExpenseType = "income" | "expense";
@@ -50,6 +50,7 @@ const TransactionForm = ({
     isEntryDrawerOpen,
     currentDay,
     onSaveTransaction,
+    selectedTransaction,
 }: TransactionFormProps) => {
     const formWidth = 320;
 
@@ -125,6 +126,16 @@ const TransactionForm = ({
           content: "",
         })
     };
+
+    useEffect(() => {
+      if (selectedTransaction) {
+        setValue("type", selectedTransaction.type);
+        setValue("date", selectedTransaction.date);
+        setValue("amount", selectedTransaction.amount);
+        setValue("category", selectedTransaction.category);
+        setValue("content", selectedTransaction.content);
+      }
+    }, [selectedTransaction]);
 
     return (
         <Box

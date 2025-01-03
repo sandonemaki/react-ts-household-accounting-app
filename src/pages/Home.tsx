@@ -12,9 +12,17 @@ interface HomeProps {
 	monthlyTransactions: Transaction[];
 	setCurrentMonth: React.Dispatch<React.SetStateAction<Date>>;
   onSaveTransaction: (transaction: Schema) => Promise<void>;
+  selectedTransaction: Transaction | null;
+  setSelectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
 }
 
-export const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction }: HomeProps) => {
+export const Home = ({
+  monthlyTransactions,
+  setCurrentMonth,
+  onSaveTransaction,
+  selectedTransaction,
+  setSelectedTransaction,
+}: HomeProps) => {
 	const today = format(new Date(), "yyyy-MM-dd");
 	const [currentDay, setCurrentDay] = useState(today);
 	const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
@@ -35,6 +43,7 @@ export const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction }
   // 取引が選択された時の処理
   const handleSelectTransaction = (transaction: Transaction) => {
     setIsEntryDrawerOpen(true);
+    setSelectedTransaction(transaction);
   };
 	return (
 		<Box sx={{ display: "flex" }}>
@@ -63,6 +72,7 @@ export const Home = ({ monthlyTransactions, setCurrentMonth, onSaveTransaction }
 					isEntryDrawerOpen={isEntryDrawerOpen}
 					currentDay={currentDay}
           onSaveTransaction={onSaveTransaction}
+          selectedTransaction={selectedTransaction}
 				/>
 			</Box>
 		</Box>
