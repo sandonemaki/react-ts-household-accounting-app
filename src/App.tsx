@@ -4,7 +4,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Css } from "@mui/icons-material";
 import { CssBaseline } from "@mui/material";
 import { format } from "date-fns";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AppLayout from "./components/layout/AppLayout";
 import { db } from "./firebase";
@@ -27,7 +27,6 @@ function isFireStoreError(
 function App() {
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
 	useEffect(() => {
 		const fetchTransactions = async () => {
@@ -60,6 +59,7 @@ function App() {
 		return transaction.date.startsWith(formatMonth(currentMonth));
 	});
 
+  // 取引を保存する処理
   const handleSaveTransaction = async (transaction: Schema) => {
     console.log(transaction);
     try {
@@ -82,6 +82,20 @@ function App() {
     }
   };
 
+  const handleDeleteTransaction = async (transactionId: string) => {
+    try {
+      // firestoreから削除
+      await deleteDoc(doc(db, "Transactions", transactionId));
+
+    } catch (err) {
+      if (isFireStoreError(err)) {
+        console.error("firestoreエラーは", err);
+      } else {
+        console.error("一般的なエラーは", err);
+      }
+    }
+  };
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
@@ -95,8 +109,7 @@ function App() {
 									monthlyTransactions={monthlyTransactions}
 									setCurrentMonth={setCurrentMonth}
                   onSaveTransaction={handleSaveTransaction}
-                  selectedTransaction={selectedTransaction}
-                  setSelectedTransaction={setSelectedTransaction}
+                  onDeleteTransaction={handleDeleteTransaction}
 								/>
 							}
 						/>
