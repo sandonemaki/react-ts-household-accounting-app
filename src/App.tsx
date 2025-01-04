@@ -4,7 +4,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Css } from "@mui/icons-material";
 import { CssBaseline } from "@mui/material";
 import { format } from "date-fns";
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import AppLayout from "./components/layout/AppLayout";
 import { db } from "./firebase";
@@ -86,6 +86,10 @@ function App() {
     try {
       // firestoreから削除
       await deleteDoc(doc(db, "Transactions", transactionId));
+      const filteredTransactions = transactions.filter(
+        (transaction) => transaction.id !== transactionId,
+      );
+      setTransactions(filteredTransactions);
 
     } catch (err) {
       if (isFireStoreError(err)) {
@@ -95,6 +99,30 @@ function App() {
       }
     }
   };
+
+  // 更新処理
+  const handleUpdateTransaction = async (transaction: Schema, transanctionId: string) => {
+    try {
+      // firestoreに更新
+      const docRef = doc(db, "Transactions", transanctionId );
+
+      // Set the "capital" field of the city 'DC'
+      await updateDoc(docRef, transaction);
+
+      // フロント更新
+      const updatedTransactions = transactions.map((t) =>
+        t.id === transanctionId ? {...t, ...transaction} : t
+      ) as Transaction[];
+      setTransactions(updatedTransactions);
+    } catch (err) {
+      if (isFireStoreError(err)) {
+        console.error("firestoreエラーは", err);
+      } else {
+        console.error("一般的なエラーは", err);
+      }
+    }
+  };
+  // handle
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -110,6 +138,7 @@ function App() {
 									setCurrentMonth={setCurrentMonth}
                   onSaveTransaction={handleSaveTransaction}
                   onDeleteTransaction={handleDeleteTransaction}
+                  onUpdateTransaction={handleUpdateTransaction}
 								/>
 							}
 						/>
