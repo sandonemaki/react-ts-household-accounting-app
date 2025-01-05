@@ -1,5 +1,4 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
 //アイコン
 import NotesIcon from "@mui/icons-material/Notes";
 import {
