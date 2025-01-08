@@ -2,18 +2,50 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Text
 import React from 'react'
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { TransactionType } from '../types';
+import { ExpenseCategory, IncomeCategory, Transaction, TransactionType } from '../types';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const CategoryChart = () => {
 
-  const [selectedType, setSelectedType] = React.useState<TransactionType>('expense');
-
+const CategoryChart = ({monthlyTransactions}: CategoryChartProps) => {
+  const [selectedType, setSelectedType] = useState<TransactionType>("expense");
   const handleChange = (e: SelectChangeEvent<TransactionType>) => {
     setSelectedType(e.target.value as TransactionType);
   };
 
+  // カテゴリごとの合計金額計算
+  const categorySums = monthlyTransactions
+    .filter((transaction) => transaction.type === selectedType)
+    .reduce<Record<IncomeCategory | ExpenseCategory, number>>(
+      (acc, transaction) => {
+        if (!acc[transaction.category]) {
+          acc[transaction.category] = 0;
+        }
+        acc[transaction.category] += transaction.amount;
+        return acc;
+      },
+      {} as Record<IncomeCategory | ExpenseCategory, number>
+    );
+
+  console.log(categorySums);
+  // const data = {
+  //   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  //   datasets: [
+  //     {
+  //       label: '# of Votes',
+  //       data: [12, 19, 3, 5, 2, 3],
+  //       backgroundColor: [
+  //         'rgba(255, 99, 132, 0.2)',
+  //         'rgba(54, 162, 235, 0.2)',
+  //         'rgba(255, 206, 86, 0.2)',
+  //         'rgba(75, 192, 192, 0.2)',
+  //         'rgba(153, 102, 255, 0.2)',
+  //         'rgba(255, 159, 64, 0.2)',
+  //       ],
+  //       borderColor: [
+  //         'rgba(255, 99, 132, 1)',
+  //         'rgba(54, 162, 235, 1)',
+  //         'rgba
   const data = {
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
     datasets: [
