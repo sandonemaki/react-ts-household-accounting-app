@@ -55,7 +55,7 @@ const CategoryChart = ({monthlyTransactions, isLoading}: CategoryChartProps) => 
     }
   };
 
-   const data: ChartData<"pie"> = {
+  const data: ChartData<"pie"> = {
     labels: categoryLabels,
     datasets: [
       {
