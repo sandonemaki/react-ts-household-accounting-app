@@ -85,6 +85,7 @@ function App() {
     }
   };
 
+  // 削除処理
   const handleDeleteTransaction = async (transactionId: string) => {
     try {
       // firestoreから削除
@@ -146,12 +147,14 @@ function App() {
 							}
 						/>
 						<Route path="/report" element={
-              <Report 
+              <Report
                 currentMonth={currentMonth}
                 setCurrentMonth={setCurrentMonth}
                 monthlyTransactions={monthlyTransactions}
-                isLoading={isLoading} />}
-              />
+                isLoading={isLoading}
+                onDeleteTransaction={handleDeleteTransaction}
+              />}
+            />
 						<Route path="*" element={<Nomatch />} />
 					</Route>
 				</Routes>

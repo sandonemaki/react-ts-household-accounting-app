@@ -57,10 +57,11 @@ function TransactionTableHead(props: TransactionTableHeadProps) {
 }
 interface TransactionTableToolbarProps {
   numSelected: number;
+  onDelete: () => void;
 }
 // ツールバー
 function TransactionTableToolbar(props: TransactionTableToolbarProps) {
-  const { numSelected } = props;
+  const { numSelected, onDelete } = props;
   return (
     <Toolbar
       sx={[
@@ -95,7 +96,7 @@ function TransactionTableToolbar(props: TransactionTableToolbarProps) {
       )}
       {numSelected > 0 && (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={onDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -133,10 +134,11 @@ function FinancialItem({ title, value, color }: FinancialItemProps) {
 
 interface TransactionTableProps {
   monthlyTransactions: Transaction[];
+  onDeleteTransaction: (transactionId: string) => Promise<void>;
 }
 
 // 本体
-export default function TransactionTable({monthlyTransactions}: TransactionTableProps) {
+export default function TransactionTable({monthlyTransactions, onDeleteTransaction}: TransactionTableProps) {
   const theme = useTheme();
 
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -180,6 +182,13 @@ export default function TransactionTable({monthlyTransactions}: TransactionTable
     setPage(0);
   };
 
+  const handleDelete = () => {
+    alert("test")
+    // onDeleteTransaction(selected)
+    setSelected([]);
+  };
+
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - monthlyTransactions.length) : 0;
@@ -226,7 +235,9 @@ export default function TransactionTable({monthlyTransactions}: TransactionTable
         </Grid>
 
         {/* ツールバー */}
-        <TransactionTableToolbar numSelected={selected.length} />
+        <TransactionTableToolbar numSelected={selected.length}
+          onDelete={handleDelete}
+        />
         {/* 取引一覧 */}
         <TableContainer>
           <Table
