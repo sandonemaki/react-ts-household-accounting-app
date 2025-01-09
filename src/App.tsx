@@ -86,13 +86,14 @@ function App() {
   };
 
   // 削除処理
-  const handleDeleteTransaction = async (transactionId: string) => {
+  const handleDeleteTransaction = async (transactionIds: string | readonly string[]) => {
     try {
       // firestoreから削除
       await deleteDoc(doc(db, "Transactions", transactionId));
       const filteredTransactions = transactions.filter(
-        (transaction) => transaction.id !== transactionId,
+        (transaction) => !idsToDelete.includes(transaction.id)
       );
+      // 上の削除内容をすぐに更新するよう管理
       setTransactions(filteredTransactions);
 
     } catch (err) {
