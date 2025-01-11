@@ -48,6 +48,7 @@ interface TransactionFormProps {
     setSlectedTransaction: React.Dispatch<React.SetStateAction<Transaction | null>>;
     onUpdateTransaction: (transaction: Schema, transanctionId: string) => Promise<void>;
     isMobile: boolean;
+    isDialogOpen: boolean;
 }
 
 type IncomeExpenseType = "income" | "expense";
@@ -66,6 +67,7 @@ const TransactionForm = ({
     setSlectedTransaction,
     onUpdateTransaction,
     isMobile,
+    isDialogOpen,
 }: TransactionFormProps) => {
     const formWidth = 320;
 
@@ -353,7 +355,7 @@ const TransactionForm = ({
       <>
       {isMobile ? (
         // mobile
-        <Dialog open={true} fullWidth maxWidth={"sm"}>
+        <Dialog open={isDialogOpen} onClose={onCloseForm} fullWidth maxWidth={"sm"}>
           <DialogContent>
             {formContent}
           </DialogContent>
