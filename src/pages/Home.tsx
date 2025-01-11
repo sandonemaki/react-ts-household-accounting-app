@@ -50,10 +50,14 @@ export const Home = ({
 
 	// フォームの開閉処理
 	const handleAddTransactionForm = () => {
-    if (selectedTransaction) {
-      setSelectedTransaction(null);
+    if (isMobile) {
+      setIsDialogOpen(!isDialogOpen);
     } else {
-      setIsEntryDrawerOpen(!isEntryDrawerOpen);
+      if (selectedTransaction) {
+        setSelectedTransaction(null);
+      } else {
+        setIsEntryDrawerOpen(!isEntryDrawerOpen);
+      }
     }
 	};
 
