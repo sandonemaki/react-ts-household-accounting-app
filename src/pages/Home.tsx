@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme, useThemeProps } from "@mui/material";
 import { format } from "date-fns";
 import { useState } from "react";
 import Calendar from "../components/Calendar";
@@ -27,8 +27,11 @@ export const Home = ({
 	const [currentDay, setCurrentDay] = useState(today);
 	const [isEntryDrawerOpen, setIsEntryDrawerOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-
-	const dailyTransactions = monthlyTransactions.filter((transaction) => {
+  
+  const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+	
+  const dailyTransactions = monthlyTransactions.filter((transaction) => {
 		return transaction.date === currentDay;
 	});
 
@@ -72,6 +75,7 @@ export const Home = ({
 					currentDay={currentDay}
 					onAddTransactionForm={handleAddTransactionForm}
           onSelectTransaction={handleSelectTransaction}
+          isMobile={isMobile}
 				/>
 				<TransactionForm
 					onCloseForm={closeForm}
