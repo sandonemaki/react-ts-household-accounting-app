@@ -196,6 +196,9 @@ const TransactionForm = ({
     const handleDelete = () => {
       if (selectedTransaction) {
         onDeleteTransaction(selectedTransaction.id);
+        if (isMobile) {
+          setIsDialogOpen(false);
+        }
         setSlectedTransaction(null);
       }
     }
