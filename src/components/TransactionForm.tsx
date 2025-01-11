@@ -49,6 +49,7 @@ interface TransactionFormProps {
     onUpdateTransaction: (transaction: Schema, transanctionId: string) => Promise<void>;
     isMobile: boolean;
     isDialogOpen: boolean;
+    setIsDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type IncomeExpenseType = "income" | "expense";
@@ -68,6 +69,7 @@ const TransactionForm = ({
     onUpdateTransaction,
     isMobile,
     isDialogOpen,
+    setIsDialogOpen,
 }: TransactionFormProps) => {
     const formWidth = 320;
 
@@ -139,6 +141,7 @@ const TransactionForm = ({
           .then(()=> {
             // console.log("更新しました");
             setSlectedTransaction(null);
+            setIsDialogOpen(false);
           })
           .catch((error) => {
             console.error("更新エラー:", error);

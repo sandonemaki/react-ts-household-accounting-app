@@ -118,6 +118,7 @@ export const Home = ({
           onUpdateTransaction={onUpdateTransaction}
           isMobile={isMobile}
           isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
 				/>
 			</Box>
 		</Box>
