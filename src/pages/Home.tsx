@@ -102,6 +102,7 @@ export const Home = ({
           onDeleteTransaction={onDeleteTransaction}
           setSlectedTransaction={setSelectedTransaction}
           onUpdateTransaction={onUpdateTransaction}
+          isMobile={isMobile}
 				/>
 			</Box>
 		</Box>
