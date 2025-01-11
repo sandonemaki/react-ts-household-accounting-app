@@ -63,8 +63,12 @@ export const Home = ({
 
   // 取引が選択された時の処理
   const handleSelectTransaction = (transaction: Transaction) => {
-    setIsEntryDrawerOpen(true);
     setSelectedTransaction(transaction);
+    if (isMobile) {
+      setIsMobileDrawerOpen(true);
+    } else {
+      setIsEntryDrawerOpen(true);
+    }
   };
 
   // モバイル用Drawerを閉じる処理
